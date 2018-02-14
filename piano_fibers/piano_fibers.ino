@@ -6,9 +6,11 @@
 #define TOUCH_FIBER_PIN_1			(A1)
 #define TOUCH_FIBER_PIN_2			(A2)
 #define TOUCH_FIBER_PIN_3			(A3)
+#define WATER_FIBER_PIN				(A6)
 #define RESISTIVE_FIBER_PIN			(A7)
 #define RESISTIVE_FIBER_THRESHOLD	(100)
 #define TOUCH_FIBER_THRESHOLD		(100)
+#define WATER_FIBER_THRESHOLD		(700)
 
 uint8_t touch_pins[] = {A0, A1, A2, A3};
 #define TOUCH_COUNT					(ARRAY_SIZE(touch_pins))
@@ -40,6 +42,8 @@ void setup() {
 		Serial.print("]=");
 		Serial.println(touch_ref[i]);
 	}
+	pinMode(WATER_FIBER_PIN, INPUT_PULLUP);
+	pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void loop() {
@@ -69,5 +73,7 @@ void loop() {
 	if (no_note)
 		note_beep(NOTES_COUNT);
 
+	v = analogRead(WATER_FIBER_PIN);
+	digitalWrite(LED_BUILTIN, v < WATER_FIBER_THRESHOLD);
 	// delay(100);
 }
